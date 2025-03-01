@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dg5e7mds70b56"]
+
+[ext_resource type="PackedScene" uid="uid://266hrpnglqv4" path="res://scenes/joe_miner.tscn" id="1_j68e2"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_j68e2")]
+position = Vector2(588, 335)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
