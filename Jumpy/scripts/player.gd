@@ -16,6 +16,8 @@ var active_log_count = 0
 var current_log_velocity
 
 func _process(delta: float) -> void:
+	if global_position.x < 0 or global_position.x > 160:
+		Global.game_over = true
 	if Global.game_over:
 		pass
 	else:
@@ -71,10 +73,6 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 	else:
 		velocity = Vector2(0, 0)
-
-func _process(delta: float) -> void:
-	if global_position.x <= -80 or global_position.x >= 80:
-		Global.game_over = true
 
 func check_drowning():
 	if global_position.y <= -17 and global_position.y >= -73 and !is_moving and active_log_count == 0:
