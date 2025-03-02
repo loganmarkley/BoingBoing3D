@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=4 uid="uid://de6lsdbw581ou"]
+[gd_scene load_steps=14 format=4 uid="uid://de6lsdbw581ou"]
 
 [ext_resource type="Script" path="res://level1.gd" id="1_g8oat"]
 [ext_resource type="Texture2D" uid="uid://3oq36v7hft41" path="res://assets/particles/water_particle.png" id="2_4j0a3"]
 [ext_resource type="Shader" path="res://assets/tiles/occlusion_matter.gdshader" id="2_bdtad"]
 [ext_resource type="Texture2D" uid="uid://svqqegkfeyda" path="res://assets/tiles/dirt_tile.png" id="2_qanyo"]
 [ext_resource type="Script" path="res://water_particle.gd" id="3_x6dd1"]
+[ext_resource type="PackedScene" uid="uid://6pawyppanyik" path="res://FluidSim2D/Water Sim.tscn" id="6_rxxrl"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hfogl"]
 shader = ExtResource("2_bdtad")
@@ -337,15 +338,16 @@ terrain_set_0/terrain_2/name = "Terrain 2"
 terrain_set_0/terrain_2/color = Color(0.46875, 0.5, 0.25, 1)
 sources/2 = SubResource("TileSetAtlasSource_0n68a")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ag5tg"]
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_s0uuq"]
 lifetime_randomness = 1.0
 particle_flag_disable_z = true
-emission_shape_offset = Vector3(0, 20, 0)
 emission_shape_scale = Vector3(2, 2, 10)
-direction = Vector3(0, 1, 0)
-spread = 20.0
+direction = Vector3(0, 0, 0)
+spread = 5.0
 initial_velocity_min = 20.0
-initial_velocity_max = 30.0
+initial_velocity_max = 800.0
 gravity = Vector3(0, 200, 0)
 damping_min = 0.1
 damping_max = 0.2
@@ -357,9 +359,6 @@ sub_emitter_keep_velocity = true
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ldrx6"]
 size = Vector2(1133.22, 64)
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_sqyln"]
-polygon = PackedVector2Array(378.956, -803.785, 870.871, -699.826, 1144.16, -915.352, 1300.84, -573.046, 488.271, -595.866)
 
 [node name="Node2D" type="Node2D"]
 position = Vector2(-817, -373)
@@ -377,29 +376,34 @@ tile_map_data = PackedByteArray("AADU/+b/AgAAAAEAAADU/+f/AgAAAAEAAADU/+j/AgAAAAE
 tile_set = SubResource("TileSet_khmkk")
 
 [node name="WaterParticles" type="GPUParticles2D" parent="Level1"]
+process_mode = 3
+physics_interpolation_mode = 1
+auto_translate_mode = 1
+visible = false
 light_mask = 1023
 z_index = 1
-position = Vector2(812.569, -4287.7)
+material = SubResource("ShaderMaterial_ag5tg")
+position = Vector2(885.446, -393.018)
 rotation = -0.0141984
-scale = Vector2(15.151, 167.525)
-amount = 100
+scale = Vector2(1.32508, 0.330109)
+amount = 1000
 process_material = SubResource("ParticleProcessMaterial_s0uuq")
 texture = ExtResource("2_4j0a3")
 lifetime = 600.0
+speed_scale = 33.18
 script = ExtResource("3_x6dd1")
 
 [node name="GoalArea" type="Area2D" parent="Level1"]
-position = Vector2(-80.1639, -786.035)
+position = Vector2(-72.8763, -938.172)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level1/GoalArea"]
 position = Vector2(987.473, 674.469)
 shape = SubResource("RectangleShape2D_ldrx6")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="Level1"]
+[node name="StoneMapLayer" type="TileMapLayer" parent="Level1"]
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="Level1"]
-position = Vector2(65.5886, 471.622)
-occluder = SubResource("OccluderPolygon2D_sqyln")
+[node name="Water Sim" parent="Level1" instance=ExtResource("6_rxxrl")]
+position = Vector2(185.834, -258.631)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.57, 2.675)
